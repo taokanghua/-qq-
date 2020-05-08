@@ -32,6 +32,20 @@ Vue.use(VueRouter)
     path:'/contact',
     name:'contact',
     component: () => import('@/views/index/contact.vue')
+  },
+  {
+    path:'/message',
+    name:'message',
+    component: () => import('@/views/index/message.vue')
+  },
+  {
+    path:'/discover',
+    name:'discover',
+    component: () => import('@/views/index/discover.vue')
+  },{
+    path:'/editdiscover',
+    name:'editdiscover',
+    component: () => import('@/views/index/discover-com/editDiscover.vue')
   }
 ]
 

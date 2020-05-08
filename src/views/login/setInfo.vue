@@ -1,6 +1,8 @@
 <template>
   <div class="setInfo-container">
-    <myheader></myheader>
+    <myheader>
+      <template v-slot:title>设置用户信息</template>
+    </myheader>
     <van-form @submit="onSubmit">
 			<img :src="baseInfo.img" alt="">
       <van-field

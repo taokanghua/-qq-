@@ -45,8 +45,8 @@ import { Notify } from 'vant';
 export default {
 	data(){
 		return{
-			username:'',
-			password:'',
+			username:'10013',
+			password:'12345',
 			pattern:/\d{5}|\d{16}/
 		}
 	},

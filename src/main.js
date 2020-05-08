@@ -9,6 +9,12 @@ import '@/styles/common.less'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Vant)
+import {Lazyload} from 'vant'
+Vue.use(Lazyload, {
+  lazyComponent:true,
+  loading:'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2701646041,3975227449&fm=26&gp=0.jpg',
+  error:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1588950936879&di=63f465a8b4584f872d4d0f11af5d9d67&imgtype=0&src=http%3A%2F%2Fpic.soutu123.cn%2Felement_origin_min_pic%2F01%2F37%2F85%2F80573c6529bb88f.jpg%2521%2Ffw%2F700%2Fquality%2F90%2Funsharp%2Ftrue%2Fcompress%2Ftrue'
+})
 // 导入axios
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:3002'
@@ -26,6 +32,8 @@ axios.interceptors.request.use(config => {
   if(!ignore.includes(config.url)){
     vm.$store.commit('changeIsLoading')
   }
+  //设置请求头
+  config.headers.Authorization = sessionStorage.getItem('kktoken')
   return config
 })
 // 全局响应拦截器

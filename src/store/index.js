@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     isLoading: false, //加载动画状态
     userinfo:{}, //用户信息
+    baseinfo:{}, //用户基本信息 比喻昵称...
   },
   mutations: {
     changeIsLoading(state){ //改变加载动画状态
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     getUserInfo(state, data){
       state.userinfo = data
+    },
+    getBaseInfo(state,data){
+      state.baseinfo = data
     }
   },
   actions: {
