@@ -1,7 +1,7 @@
 <template>
   <div class="contact-container">
     <myheader>
-      <template v-slot:left><img :src="$store.state.userinfo.img" alt=""></template>
+      <template v-slot:left><img :src="$store.state.userinfo.img" alt="" @click="$router.push({name:'setInfo',params:{id:$store.state.userinfo.id}})"></template>
       <template v-slot:title>联系人</template>
       <template v-slot:right><span class="iconfont icon-tianjiayonghu"></span></template>
     </myheader>
