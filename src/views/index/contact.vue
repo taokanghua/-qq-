@@ -1,13 +1,15 @@
 <template>
-  <div class="home">
+  <div>
+      this is contact page
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
-  name: 'Home',
 
 }
 </script>
+
+<style lang="less" scoped>
+
+</style>
