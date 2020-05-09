@@ -6,7 +6,10 @@
       <template v-slot:right><span class="iconfont icon-tianjiayonghu" @click="$router.push({name:'addfriend'})"></span></template>
     </myheader>
     <van-notice-bar text="通知内容1111111111111111111111222222222222222222222333333333333333333333" left-icon="volume-o" />
-    123
+    <!-- <van-empty image="error" description="暂无好友"/> -->
+
+    <contactitem v-for="item in friendData" :key="item.id" :item="item"></contactitem>
+
     <tabbar></tabbar>
   </div>
 </template>
@@ -14,9 +17,12 @@
 <script>
 import tabbar from '@/components/login/tabBar.vue'
 import myheader from '@/components/other/commonHeader.vue'
+import contactitem from '@/components/index/contactItem.vue'
 export default {
   data(){
-    return{}
+    return{
+      friendData:[], //好友列表的信息
+    }
   },
   methods:{
     async getBaseInfo(){//获取用户信息 比如昵称...
@@ -25,14 +31,25 @@ export default {
         // console.log(res)
         this.$store.commit('getBaseInfo', res.res)
         // console.log(this.$store.state.baseinfo)
+    },
+    getFriendList(){ //获取好友列表中的好友信息
+      this.$store.state.userinfo.personlist.friends.forEach(async item=>{
+        let {data:res} = await this.$axios.get('/checkuser/'+item)
+        if(res.meta.status == 200){
+          this.friendData.push(res.res)
+        }
+      })
+      // console.log(this.friendData)
     }
   },
   components:{
     tabbar,
-    myheader
+    myheader,
+    contactitem
   },
   created(){
     this.getBaseInfo()
+    this.getFriendList()
   }
 }
 </script>

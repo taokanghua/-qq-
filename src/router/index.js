@@ -63,6 +63,11 @@ Vue.use(VueRouter)
     component: () => import('@/views/index/contact-com/personDetail.vue')
   },
   {
+    path:'/chatpage/:id',
+    name:'chatpage',
+    component: () => import('@/views/index/message-com/chatPage.vue')
+  },
+  {
     path:'*',
     name:'notfound',
     component: () => import('@/components/other/404.vue')
@@ -70,8 +75,8 @@ Vue.use(VueRouter)
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+  // mode: 'history',
+  // base: process.env.BASE_URL,
   routes
 })
 
