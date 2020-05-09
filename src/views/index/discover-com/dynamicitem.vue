@@ -95,7 +95,7 @@ export default {
           if(res.meta.status !== 200){Toast('点赞失败')}
 
         }else{
-          this.$Message.error('你已经点过赞了...')
+          Toast('你已经点过赞了')
           return
         }        
     },

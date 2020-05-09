@@ -3,7 +3,7 @@
     <myheader>
       <template v-slot:left><img :src="$store.state.userinfo.img" alt="" @click="$router.push({name:'setInfo',params:{id:$store.state.userinfo.id}})"></template>
       <template v-slot:title>联系人</template>
-      <template v-slot:right><span class="iconfont icon-tianjiayonghu"></span></template>
+      <template v-slot:right><span class="iconfont icon-tianjiayonghu" @click="$router.push({name:'addfriend'})"></span></template>
     </myheader>
     <van-notice-bar text="通知内容1111111111111111111111222222222222222222222333333333333333333333" left-icon="volume-o" />
     123

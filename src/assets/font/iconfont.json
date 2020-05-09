@@ -62,6 +62,13 @@
       "unicode_decimal": 59142
     },
     {
+      "icon_id": "1078844",
+      "name": "female",
+      "font_class": "female",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
       "icon_id": "1663446",
       "name": "phone",
       "font_class": "phone",
@@ -179,6 +186,13 @@
       "font_class": "Settings",
       "unicode": "e66e",
       "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "12613444",
+      "name": "male",
+      "font_class": "male",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
     }
   ]
 }

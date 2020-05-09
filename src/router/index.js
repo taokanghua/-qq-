@@ -46,6 +46,26 @@ Vue.use(VueRouter)
     path:'/editdiscover',
     name:'editdiscover',
     component: () => import('@/views/index/discover-com/editDiscover.vue')
+  },
+  {
+    path:'/addfriend',
+    name:'addfriend',
+    component: () => import('@/views/index/contact-com/addFriend.vue')
+  },
+  {
+    path:'/allusers',
+    name:'allusers',
+    component: () => import('@/views/index/contact-com/allUsers.vue')
+  },
+  {
+    path:'/persondetail/:id',
+    name:'persondetail',
+    component: () => import('@/views/index/contact-com/personDetail.vue')
+  },
+  {
+    path:'*',
+    name:'notfound',
+    component: () => import('@/components/other/404.vue')
   }
 ]
 

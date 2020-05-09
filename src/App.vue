@@ -13,5 +13,6 @@
   color: #2c3e50;
   max-width: 768px;
   margin: auto;
+  position: relative;
 }
 </style>

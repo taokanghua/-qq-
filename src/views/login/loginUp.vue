@@ -55,7 +55,8 @@
          <van-button :loading="$store.state.isLoading" type="info" loading-text="请稍后..." block>立即注册</van-button>
       </div>
     </van-form>
-    <p ref="p"></p>
+    <!-- 测试代码 显示定位的 -->
+    <!-- <p ref="p"></p> -->
   </div>
 </template>
 
@@ -124,7 +125,8 @@ export default {
       );
       this.local = res2;
       this.local.ip = this.ip;
-      this.$refs.p.innerHTML = this.local.content.address;
+      // 同上测试定位代码
+      // this.$refs.p.innerHTML = this.local.content.address;
     },
   },
   components: {
