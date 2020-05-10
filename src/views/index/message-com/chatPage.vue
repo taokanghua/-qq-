@@ -8,28 +8,29 @@
     </myheader>
     <!-- 聊天盒子 -->
     <div class="content">
-      <div class="chat-item">
+      <!-- 别人的样式 -->
+      <!-- <div class="chat-item">
         <img src="http://taokanghua.cn/sources/avatar/20.jpg" alt="" />
         <div class="text">
           <span>123</span>
           <div class="message-box">123</div>
         </div>
-      </div>
+      </div> -->
       <!-- 我的 -->
-      <div class="chat-item my">
+      <!-- <div class="chat-item my">
         <div class="text">
           <span>123</span>
           <div class="message-box">121231231231231231231231231231233</div>
         </div>
         <img src="http://taokanghua.cn/sources/avatar/20.jpg" alt="" />
-      </div>
+      </div> -->
       <!-- 底部scroll盒子 -->
       <div class="bottom-view" ref="bview"></div>
     </div>
     <div class="tools">
       <div class="message">
-        <input type="text" />
-        <div class="send">发送</div>
+        <input type="text" v-model="input"/>
+        <div class="send" @click="sendMsg">发送</div>
       </div>
       <!-- 底部表情操作栏 -->
       <div class="tools-icon">
@@ -50,7 +51,21 @@ export default {
   data() {
     return {
       otherinfo: {},
+      input:'',
+      roomId:'',
     };
+  },
+  sockets:{
+    receiveMsg(data){
+      this.$nextTick(()=>{
+        this.renderMsg(data)
+      })
+    },
+    history(data){
+      this.$store.state.history = data
+      console.log(data)
+      this.renderHistory()
+    }
   },
   methods: {
     async getNickName() {
@@ -60,17 +75,99 @@ export default {
         this.otherinfo = res.res;
       }
     },
+    async inviteRoom(){
+      //算出房间号
+      let other = this.$route.params.id
+      let my = this.$store.state.userinfo.id
+      let roomId = Math.min(other,my) +''+ Math.max(other, my)
+      this.roomId = roomId
+      //发送事件
+      this.$socket.emit('inviteRoom', roomId)
+      // 在session中插入对方
+      /*
+      let flag = false //默认没有
+      this.$store.state.session.some(item=>{
+        if(item.id == other){
+          flag = true
+        }
+      })
+      if(!flag){
+        let {data:res} = await this.$axios.get('/checkuser/'+other)
+      if(res.meta.status == 200){
+        res.msg = []
+        res.roomId = roomId
+        this.$store.state.session.push(res.res)
+      }
+      }*/
+    },
+    sendMsg(){
+      // 发送消息
+      if(this.input.length == 0) return
+      let data = this.$store.state.baseinfo
+      data.msg = [this.input]
+      data.roomId = this.roomId
+      data.date = new Date()
+      this.$socket.emit('sendMsg', data)
+      //渲染
+      // this.$nextTick(()=>{this.renderMsg(data, true)})
+      // this.input = ''
+    },
+    renderHistory(){
+        let history = this.$store.state.history[this.roomId]
+        // console.log(history)
+        if(history != undefined){
+          history.forEach(item=>{
+            this.renderMsg(item, false)
+          })
+        }
+    },
+    renderMsg(data, animate=true){
+      if(data.id == this.$store.state.userinfo.id){
+        let text = `<div class="chat-item my">
+                      <div class="text">
+                        <span>123</span>
+                        <div class="message-box">${data.msg[0]}</div>
+                      </div>
+                      <img src="${data.img}" alt="" />
+                    </div>`
+        this.$refs.bview.insertAdjacentHTML('beforebegin', text)
+      }else{
+        let text = `<div class="chat-item">
+                      <img src="${data.img}" alt="" />
+                      <div class="text">
+                        <span>123</span>
+                        <div class="message-box">${data.msg[0]}</div>
+                      </div>
+                    </div>`
+        this.$refs.bview.insertAdjacentHTML('beforebegin', text)
+      }
+      if(animate){
+        this.$refs.bview.scrollIntoView({block:'end', behavior:'smooth'})
+      }else{
+        this.$refs.bview.scrollIntoView({block:'end'})
+      }
+    }
   },
   components: {
     myheader,
   },
   created() {
     this.getNickName();
+    this.inviteRoom()
+    let data = []
+    data.push(this.roomId)
+    this.$socket.emit('getHistroy', data)
   },
+  mounted(){
+    this.renderHistory()
+  },
+  watch:{
+    
+  }
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .chat-container {
   display: flex;
   flex-direction: column;

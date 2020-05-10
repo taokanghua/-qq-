@@ -56,7 +56,7 @@
     </div>
     <!-- <i-button type="success" long class="addfriend" v-show="checkbtn" >添加好友</i-button> -->
     <div class="addfriend" v-show="checkbtn">
-      <van-button color="linear-gradient(to right, #4bb0ff, #6149f6)" block>添加好友</van-button>
+      <van-button color="linear-gradient(to right, #4bb0ff, #6149f6)" block @click="addFriend">添加好友</van-button>
     </div>
     
   </div>
@@ -64,6 +64,7 @@
 
 <script>
 import myheader from "@/components/other/commonHeader.vue";
+import { Toast } from 'vant'
 export default {
   data() {
     return {
@@ -100,6 +101,24 @@ export default {
           return true
         }
       })
+    },
+    addFriend(){
+      let my = this.$store.state.userinfo.id
+      let target = this.$route.params.id
+      let data1 = {
+        id: my,
+        list:target
+      }
+      let data2 = {
+        id:target,
+        list:my
+      }
+      this.$axios.post('/updatefriend', this.$qs.stringify(data1))
+      this.$axios.post('/updatefriend', this.$qs.stringify(data2))
+      this.$socket.emit('addfriend', data1)
+      Toast('添加好友成功！赶快去聊天把！')
+      this.$router.push({name:'contact'})
+      this.$store.state.userinfo.personlist.friends.push(target)
     }
   },
   components: {

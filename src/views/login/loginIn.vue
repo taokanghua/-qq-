@@ -45,7 +45,7 @@ import { Notify } from 'vant';
 export default {
 	data(){
 		return{
-			username:'10013',
+			username:'10001',
 			password:'12345',
 			pattern:/\d{5}|\d{16}/
 		}
@@ -63,6 +63,7 @@ export default {
 				sessionStorage.setItem('kktoken', res.token)
 				//保存数据到vuex中
 				this.$store.commit('getUserInfo', res.userinfo)
+				// this.$store.state.session = res.userinfo.personlist.chat
 				this.$router.push({name:'contact'})
 			}else{
 				Notify({type:'warning', message:res.content})

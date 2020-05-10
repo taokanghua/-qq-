@@ -1,6 +1,6 @@
 <template>
   <van-tabbar route class="tabbar">
-    <van-tabbar-item replace to="/message" icon="chat-o">
+    <van-tabbar-item replace to="/message" icon="chat-o" >
     消息
   </van-tabbar-item>
   <van-tabbar-item replace to="/contact" icon="manager-o">

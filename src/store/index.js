@@ -8,6 +8,9 @@ export default new Vuex.Store({
     isLoading: false, //加载动画状态
     userinfo:{}, //用户信息
     baseinfo:{}, //用户基本信息 比喻昵称...
+    session:[], //存放所有会话信息
+    history:{}, //会话中所有的历史记录 {房间号:[{},{}...]} 
+    num: 0
   },
   mutations: {
     changeIsLoading(state){ //改变加载动画状态
@@ -18,6 +21,11 @@ export default new Vuex.Store({
     },
     getBaseInfo(state,data){
       state.baseinfo = data
+    },
+    calNum(stata){
+      state.session.forEach(item=>{
+        state.num += item.msg.length
+      })
     }
   },
   actions: {

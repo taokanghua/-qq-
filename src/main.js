@@ -2,9 +2,19 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import VueSocketIO from 'vue-socket.io'
+Vue.use(new VueSocketIO({
+  debug: false,
+  connection: 'http://localhost:3002'
+}))
 
 //导入全局样式
 import '@/styles/common.less'
+// 导入自己的字体图标
+//第一种按class导入
+import '@/assets/font/iconfont.css'
+//按symbol 导入
+import '@/assets/font/iconfont.js'
 // 导入vant
 import Vant from 'vant'
 import 'vant/lib/index.css'
@@ -28,7 +38,7 @@ Vue.prototype.$qs = qs
 axios.interceptors.request.use(config => {
   //发起请求的时候 就改变状态为true
   //忽略路径
-  let ignore = ['/getbaseinfo']  //部分链接不能改变状态
+  let ignore = ['/getbaseinfo','/question/getavatar']  //部分链接不能改变状态
   if(!ignore.includes(config.url)){
     vm.$store.commit('changeIsLoading')
   }
@@ -43,16 +53,53 @@ axios.interceptors.response.use(config => {
   return config
 })
 
-// 导入自己的字体图标
-//第一种按class导入
-import '@/assets/font/iconfont.css'
-//按symbol 导入
-import '@/assets/font/iconfont.js'
 
 Vue.config.productionTip = false
 
-let vm = new Vue({
+const vm = new Vue({
+  data:{},
+  sockets:{
+    connect:function(){
+      console.log('connected')
+    },
+    checkAndJoin(data){
+      let id = this.$store.state.userinfo.id
+      if(data.includes(id)){
+        this.$socket.emit('joinRoom', data)
+      }
+    },
+    receiveMsg(data){ //接收消息
+      if(data.id == this.$store.state.userinfo.id) return
+      let session = this.$store.state.session
+      let isHave = false
+      session.some(item=>{
+        if(item.id == data.id){
+          item.msg.push(data.msg[0])
+          isHave = true
+          return true
+        }
+      })
+      if(!isHave){
+        session.push(data)
+      }
+      // console.log(session)
+      //test
+    },
+    history(data){
+      //历史聊天记录
+      this.$store.state.history = data
+    },
+    addtoo(data){
+      console.log(data)
+      if(data.list == this.$store.state.userinfo.id){
+        this.$store.state.userinfo.personlist.friends.push(data.id)
+      }
+    }
+  },
   router,
   store,
+  watch:{
+    
+  },
   render: h => h(App)
 }).$mount('#app')
