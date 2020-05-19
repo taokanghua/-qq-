@@ -21,7 +21,8 @@
       ></template>
     </myheader>
     <van-notice-bar
-      text="通知内容1111111111111111111111222222222222222222222333333333333333333333"
+      v-show="notify!=''"
+      :text="notify"
       left-icon="volume-o"
     />
     <!-- <van-empty image="error" description="暂无好友"/> -->
@@ -44,6 +45,7 @@ export default {
   data() {
     return {
       friendData: [], //好友列表的信息
+      notify:''
     };
   },
   methods: {
@@ -76,6 +78,12 @@ export default {
     },
     getOnline(){
       this.$axios.get('/goonline/'+this.$store.state.userinfo.id)
+    },
+    async getNotify(){
+      let {data:res} = await this.$axios.get('/getsysnotify')
+      if(res.meta.status == 200){
+        this.notify = res.res.scrollnotify
+      }
     }
   },
   components: {
@@ -87,6 +95,7 @@ export default {
     this.getBaseInfo();
     this.getFriendList();
     this.getOnline()
+    this.getNotify()
     // console.log(this.$store.state.session)
   },
 };

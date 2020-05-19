@@ -5,8 +5,13 @@ import store from './store'
 import VueSocketIO from 'vue-socket.io'
 Vue.use(new VueSocketIO({
   debug: false,
-  connection: 'http://localhost:3002'
+  connection: 'http://taokanghua.cn:3004'
 }))
+
+if(window.screen.height >= 1080){
+  alert('用手机访问更佳哦 或按F12再点击手机模式预览')
+}
+
 
 //导入全局样式
 import '@/styles/common.less'
@@ -27,7 +32,7 @@ Vue.use(Lazyload, {
 })
 // 导入axios
 import axios from 'axios'
-axios.defaults.baseURL = 'http://localhost:3002'
+axios.defaults.baseURL = 'http://taokanghua.cn:3004'
 Vue.prototype.$axios = axios
 // 导入axios
 import qs from 'qs'

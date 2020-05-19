@@ -110,7 +110,7 @@ export default {
       this.$socket.emit('sendMsg', data)
       //渲染
       // this.$nextTick(()=>{this.renderMsg(data, true)})
-      // this.input = ''
+      this.input = ''
     },
     renderHistory(){
         let history = this.$store.state.history[this.roomId]
